@@ -1,2 +1,2 @@
 # reconstruction-cvaegan
-we are coming soon
+We'll upload the model soon
