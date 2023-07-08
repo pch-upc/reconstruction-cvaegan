@@ -24,9 +24,7 @@ gen = Generator(Z_DIM, BATCH_SIZE, LATENT, DEVICE).to(DEVICE)
 opt_gen = optim.Adam(gen.parameters(), lr=LEARNING_RATE, betas=(0.0, 0.9))
 load_checkpoint("./generator_bentheimer.pt", \
                     model=gen, optimizer=opt_gen, lr=1e-3)
-
 seed_everything(seed=107)
-
 
 samples_conditional=[]
 
@@ -43,7 +41,6 @@ for i in logging_por:
     # noise = torch.randn(BATCH_SIZE,LATENT).to(DEVICE)
     c1 = torch.tensor(i).to(DEVICE)
     fake_images = gen(noise, c1).detach().cpu().numpy().reshape(128,128,128)
-    # samples_conditional.append(fake_images)
     samples_conditional.append(np.round(fake_images))    
 
 samples_conditional = np.array(samples_conditional)
