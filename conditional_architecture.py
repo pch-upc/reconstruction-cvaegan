@@ -1,11 +1,9 @@
 import torch
-# from torchsummary import summary
   
 class Encoder(torch.nn.Module):
     def __init__(self, z_dim, batch_size, latent, device):
         
         super(Encoder, self).__init__()
-        # dim_in = 128
         self.z_dim = z_dim
         self.batch_size = batch_size
         self.latent = latent
@@ -94,9 +92,6 @@ class Discriminator(torch.nn.Module):
     def __init__(self, z_dim, batch_size, latent, device):
         
         super(Discriminator, self).__init__()
-        # channel_in = 128
-        # H = 128
-        # W = 128
         self.z_dim = z_dim
         self.batch_size = batch_size
         self.latent = latent
@@ -129,7 +124,6 @@ class Discriminator(torch.nn.Module):
             torch.nn.InstanceNorm3d(256),
             torch.nn.LeakyReLU(0.2),
             
-            # dim: Bx2x2x2
             torch.nn.Conv3d(in_channels=256, out_channels=1, kernel_size=4, stride=1, padding=0),
         )
         
@@ -177,27 +171,3 @@ def gradient_penalty(critic, real, fake, c1, device="cpu"):
     gradient_norm = gradient.norm(2, dim=1)
 
     return torch.mean((gradient_norm - 1) ** 2)
-    # BATCH_SIZE, C, H, W, D = real.shape
-    # c1 = c1.reshape(BATCH_SIZE, 1)
-    # beta = torch.rand((BATCH_SIZE, 1, 1, 1, 1)).repeat(1, C, H, W, D).to(device)
-    # beta2 = torch.rand((BATCH_SIZE, 1)).to(device)
-    # interpolated_images = real * beta + fake.detach() * (1 - beta)
-    # interpolated_c = c1 * beta2 + c2.detach() * (1 - beta2)
-    # interpolated_images.requires_grad_(True)
-    # interpolated_c.requires_grad_(True)
-
-    # # Calculate critic scores
-    # mixed_scores = critic(interpolated_images, interpolated_c)
-
-    # # Take the gradient of the scores with respect to the images
-    # gradient = torch.autograd.grad(
-    #     inputs=(interpolated_images, interpolated_c),
-    #     outputs=mixed_scores,
-    #     grad_outputs=torch.ones_like(mixed_scores),
-    #     create_graph=True,
-    #     retain_graph=True,
-    # )
-    # gradients_x = gradient[0].view(gradient[0].size(0), -1)
-    # gradients_c = gradient[1].view(gradient[1].size(0), -1)
-    # gradient_penalty = ((gradients_x.norm(2, dim=1) - 1) ** 2).mean() + ((gradients_c.norm(2, dim=1) - 1) ** 2).mean()
-    # return gradient_penalty
