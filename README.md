@@ -1,2 +1,1 @@
-# reconstruction-cvaegan
-
+# Digital rock reconstruction CVAE-GAN
